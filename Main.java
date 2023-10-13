@@ -76,13 +76,16 @@ public class Main {
       final int M = k - k / 2 - k / 3,
                 N = k;
       int[][] matrix = new int[M][N];
-//      int target = 2 * N + 1;
-      int target = 16 * N + 1;
-//      int target = 2 * N;
+      //first target
+      int target = 2 * N + 1;
+      //second target
+//      int target = 16 * N + 1;
       for (int i = 0; i < M; i++) {
         for (int j = 0; j < N; j++) {
-//          matrix[i][j] = (N / M * i + j) * 2;
-          matrix[i][j] = (N / M * i * j) * 2;
+          //first matrix
+          matrix[i][j] = (N / M * i + j) * 2;
+          //second matrix
+//          matrix[i][j] = (N / M * i * j) * 2;
         }
       }
 
@@ -94,8 +97,8 @@ public class Main {
 //      }
 //      System.out.println(target);
 
-//      long process = measureTime(() -> { first(N, M, matrix, target); });
-      long process = measureTime(() -> { second(N, M, matrix, target); });
+      long process = measureTime(() -> { first(N, M, matrix, target); });
+//      long process = measureTime(() -> { second(N, M, matrix, target); });
 //      long process = measureTime(() -> { third(N, M, matrix, target); });
       time.add(N + " " + M + ", " + process + "\n");
     }
