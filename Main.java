@@ -14,38 +14,30 @@ public class Main {
     }
     return "";
   }
-  public static long measureTime(Runnable codeToMeasure) {
-    long startTime = System.nanoTime();
-    codeToMeasure.run();
-    return (System.nanoTime() - startTime);
-  }
-  static void first(int N, int M, int[][] matrix, int target) {
-    String answer = "";
+  static boolean firstAlgorithm(int N, int M, int[][] matrix, int target) {
     int i = 0, j = N - 1;
-
     while (i < M && j >= 0) {
       if (matrix[i][j] == target) {
-        answer = String.valueOf(i) + j;
-        break;
+        return true;
       } else if (matrix[i][j] < target) {
         i++;
       } else if (matrix[i][j] > target) {
         j--;
       }
     }
-//    System.out.println(!answer.isEmpty() ? "Yes" : "False");
+    return false;
   }
 
-  static void second(int N, int M, int[][] matrix, int target) {
+  static boolean secondAlgorithm(int N, int M, int[][] matrix, int target) {
     String answer = "";
     for (int i = 0; i < M && answer.isEmpty(); i++) {
       int first = 0, last = N - 1;
       answer = binarySearch(first, last, i, target, matrix);
     }
-//    System.out.println(!answer.isEmpty() ? "Yes" : "False");
+    return !answer.isEmpty();
   }
 
-  static void third(int N, int M, int[][] matrix, int target) {
+  static boolean thirdAlgorithm(int N, int M, int[][] matrix, int target) {
     String answer = "";
     int i = 1, j = N - 1;
     while (i < M && matrix[i][j] < target) {
@@ -61,47 +53,32 @@ public class Main {
       int first = i / 2, last = Math.min(i, N - 1);
       answer = binarySearch(first, last, k, target, matrix);
       if (!answer.isEmpty()) {
-//        System.out.println("Yes");
-        return;
+        return true;
       }
     }
-//    System.out.println("False");
+    return false;
   }
+
+
 
   public static void main(String[] args) {
     ArrayList<String> time = new ArrayList<String>();
-
     for (int k = 10; k <= Math.pow(2, 14); k += Math.pow(2, 6)) {
-//      int k = 10;
-      final int M = k - k / 2 - k / 3,
-                N = k;
-      int[][] matrix = new int[M][N];
-      //first target
-      int target = 2 * N + 1;
-      //second target
-//      int target = 16 * N + 1;
-      for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
-          //first matrix
-          matrix[i][j] = (N / M * i + j) * 2;
-          //second matrix
-//          matrix[i][j] = (N / M * i * j) * 2;
-        }
-      }
+      GenerateMatrix matrix = new GenerateMatrix(k);
 
-//      for (int i = 0; i < M; i++) {
-//        for (int j = 0; j < N; j++) {
-//          System.out.print(matrix[i][j] + " ");
-//        }
-//        System.out.println();
-//      }
-//      System.out.println(target);
+//      int target = matrix.getFirstTarget();
+//      matrix.addDataFirst();
 
-      long process = measureTime(() -> { first(N, M, matrix, target); });
-//      long process = measureTime(() -> { second(N, M, matrix, target); });
-//      long process = measureTime(() -> { third(N, M, matrix, target); });
-      time.add(N + " " + M + ", " + process + "\n");
+      matrix.addDataSecond();
+      int target = matrix.getSecondTarget();
+
+//      long process = TimeWork.measureTime(() -> { firstAlgorithm(matrix.N, matrix.M, matrix.matrix, target); });
+//      long process = TimeWork.measureTime(() -> { secondAlgorithm(matrix.N, matrix.M, matrix.matrix, target); });
+      long process = TimeWork.measureTime(() -> { thirdAlgorithm(matrix.N, matrix.M, matrix.matrix, target); });
+      time.add(matrix.N + " " + matrix.M + ", " + process);
     }
-    System.out.println(time);
+    for (int i = 0; i < time.size(); i++) {
+      System.out.println(time.get(i));
+    }
   }
 }
