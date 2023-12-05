@@ -67,13 +67,13 @@ public class Main {
       GenerateMatrix matrix = new GenerateMatrix(k);
 
 //      int target = matrix.getFirstTarget();
-//      matrix.addDataFirst();
+      matrix.addDataFirst();
 
-      matrix.addDataSecond();
+      // matrix.addDataSecond(); 
       int target = matrix.getSecondTarget();
 
-//      long process = TimeWork.measureTime(() -> { firstAlgorithm(matrix.N, matrix.M, matrix.matrix, target); });
-//      long process = TimeWork.measureTime(() -> { secondAlgorithm(matrix.N, matrix.M, matrix.matrix, target); });
+    //  long process = TimeWork.measureTime(() -> { firstAlgorithm(matrix.N, matrix.M, matrix.matrix, target); });
+    //  long process = TimeWork.measureTime(() -> { secondAlgorithm(matrix.N, matrix.M, matrix.matrix, target); });
       long process = TimeWork.measureTime(() -> { thirdAlgorithm(matrix.N, matrix.M, matrix.matrix, target); });
       time.add(matrix.N + " " + matrix.M + ", " + process);
     }
